@@ -1,0 +1,6 @@
+﻿  main.c
+D:\Projects Visual Studio Code 2022\Project6\Project6\main.c(222,40): warning C4047: функция: "const char *" отличается по уровням косвенного обращения от "char **"
+D:\Projects Visual Studio Code 2022\Project6\Project6\main.c(222,40): warning C4024: strcpy_s: различные типы для формального и фактического параметров 3
+D:\Projects Visual Studio Code 2022\Project6\Project6\main.c(203,15): warning C4047: инициализация: "char *" отличается по уровням косвенного обращения от "const char"
+D:\Projects Visual Studio Code 2022\Project6\Project6\main.c(379,50): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+  Project6.vcxproj -> D:\Projects Visual Studio Code 2022\Project6\x64\Debug\Project6.exe

@@ -14,56 +14,49 @@
 #define HEIGHT 25
 typedef char* T;
 
-// Определение структуры стека
 typedef struct Stack_tag {
-    T* data;      // Массив данных стека
-    size_t size;  // Размер стека
-    size_t top;   // Индекс вершины стека
+    T* data;     
+    size_t size; 
+    size_t top;   
 } Stack_T;
 
-// Создание стека
+
 Stack_T* createStack() {
-    Stack_T* out = (Stack_T*)malloc(sizeof(Stack_T));  // Выделение памяти под стек
+    Stack_T* out = (Stack_T*)malloc(sizeof(Stack_T));
     if (out == NULL) {
-        exit(OUT_OF_MEMORY);  // Выход из программы в случае ошибки выделения памяти
+        exit(OUT_OF_MEMORY); 
     }
-    out->size = 1;  // Инициализация размера стека
-    out->data = (T*)malloc(out->size * sizeof(T));  // Выделение памяти под массив данных стека
+    out->size = 1; 
+    out->data = (T*)malloc(out->size * sizeof(T)); 
     if (out->data == NULL) {
         free(out);
         exit(OUT_OF_MEMORY);
     }
-    out->top = 0;  // Инициализация индекса вершины стека
+    out->top = 0; 
     return out;
 }
 
-
-
-// Удаление стека
 void deleteStack(Stack_T** stack) {
     if (*stack != NULL) {
-        free((*stack)->data);  // Освобождение памяти, занимаемой массивом данных стека
-        free(*stack);          // Освобождение памяти, занимаемой самим стеком
+        free((*stack)->data);
+        free(*stack); 
         *stack = NULL;
     }
 }
 
-// Изменение размера стека
 void resize(Stack_T* stack) {
-    stack->size *= MULTIPLIER;  // Увеличение размера стека в MULTIPLIER раз
-    stack->data = (T*)realloc(stack->data, stack->size * sizeof(T));  // Перевыделение памяти под массив данных стека
+    stack->size *= MULTIPLIER;  
+    stack->data = (T*)realloc(stack->data, stack->size * sizeof(T)); 
     if (stack->data == NULL) {
         exit(OUT_OF_MEMORY);
     }
 }
 
-// Добавление элемента в стек
 void push(Stack_T* stack, T value) {
     if (stack->top >= stack->size) {
-        resize(stack);  // Увеличение размера стека при необходимости
+        resize(stack); 
     }
-    stack->data[stack->top] = value;  // Добавление элемента в стек
-    stack->top++;// Инкрементация индекса вершины стека
+    stack->data[stack->top] = value; 
 }
 
 Stack_T* copyStack(Stack_T* original) {
@@ -75,24 +68,22 @@ Stack_T* copyStack(Stack_T* original) {
 }
 
 
-// Извлечение элемента из стека
 T pop(Stack_T* stack) {
     if (stack->top == 0) {
-        exit(STACK_UNDERFLOW);  // Выход из программы в случае пустого стека
+        exit(STACK_UNDERFLOW);  
     }
-    stack->top--;  // Декрементация индекса вершины стека
-    return stack->data[stack->top];  // Извлечение элемента из стека
+    stack->top--;  
+    return stack->data[stack->top];  
 }
 
-// Просмотр верхнего элемента стека без извлечения
 T peek(const Stack_T* stack) {
     if (stack->top == 0) {
         exit(STACK_UNDERFLOW);
     }
-    return stack->data[stack->top - 1];  // Возврат верхнего элемента стека без извлечения
+    return stack->data[stack->top - 1]; 
 }
 
-// Проверка, является ли символ оператором
+
 int is_operator(char* op) {
     return (strcmp(op, "+") == 0 || strcmp(op, "-") == 0 || strcmp(op, "/") == 0 || strcmp(op, "*") == 0);
 }
@@ -102,25 +93,25 @@ int is_function1(char* value) {
         strcmp(value, "ctg") == 0 || strcmp(value, "ln") == 0 || strcmp(value, "sqrt") == 0);;
 }
 
-// Проверка, является ли строка числом
+
 int is_number(char* token) {
     while (*token) {
-        if (!isdigit(*token)) { // Если текущий символ не является цифрой
-            return 0; // Возвращаем 0 (ложь)
+        if (!isdigit(*token)) {
+            return 0;
         }
-        token++; // Переходим к следующему символу
+        token++; 
     }
-    return 1; // Если все символы строки - цифры, возвращаем 1 (истина)
+    return 1;
 }
 
 int is_variable(char* value) {
     while (*value) {
-        if (!isalpha(*value)) { // Если текущий символ не является цифрой
-            return 0; // Возвращаем 0 (ложь)
+        if (!isalpha(*value)) { 
+            return 0; 
         }
-        value++; // Переходим к следующему символу
+        value++; 
     }
-    return 1; // Если все символы строки - цифры, возвращаем 1 (истина)
+    return 1; 
 }
 
 int get_precedence(char* op) {
@@ -131,7 +122,7 @@ int get_precedence(char* op) {
     return 0;
 }
 
-// Применение оператора к двум операндам
+
 char* apply_operator(Stack_T* operands, char* _operator) {
     double result = 0.0;
     double a, b;
@@ -170,7 +161,7 @@ char* apply_operator(Stack_T* operands, char* _operator) {
         }
     }
     else {
-        // Вычисление результата в зависимости от оператора
+        // Г‚Г»Г·ГЁГ±Г«ГҐГ­ГЁГҐ Г°ГҐГ§ГіГ«ГјГІГ ГІГ  Гў Г§Г ГўГЁГ±ГЁГ¬Г®Г±ГІГЁ Г®ГІ Г®ГЇГҐГ°Г ГІГ®Г°Г 
         if (strcmp(_operator, "+") == 0) {
             result = a + b;
         }
@@ -191,7 +182,7 @@ char* apply_operator(Stack_T* operands, char* _operator) {
     char* output = (char*)malloc(sizeof(char*) * 1000);
     sprintf_s(output, strlen(output), "%f", result);
 
-    return output;  // Возврат результата операции
+    return output; 
 }
 
 Stack_T* tokenize(const char* expression) {
